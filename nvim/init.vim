@@ -4,48 +4,50 @@ source ~/.vimrc
 "カラースキームを変更
 colorscheme ghdark
 
-"dein Scripts-----------------------------
-if &compatible
-  set nocompatible               " Be iMproved
+
+" --------------------- 以下vim-plugの設定 -------------------
+
+" vim-plugがインストールされていなければ、自動でインストール
+if has('vim_starting')
+  set rtp+=~/.vim/plugged/vim-plug
+  if !isdirectory(expand('~/.vim/plugged/vim-plug'))
+    echo 'install vim-plug...'
+    call system('mkdir -p ~/.vim/plugged/vim-plug')
+    call system('git clone https://github.com/junegunn/vim-plug.git ~/.vim/plugged/vim-plug/autoload')
+  end
 endif
 
-" dein.vimインストール時に指定したディレクトリ
-let s:dein_dir = expand('~/.cache/dein')
 
-" dein.vimの実体があるディレクトリ
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+" 以下vimのプラグイン
+call plug#begin('~/.vim/plugged')
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  Plug 'kassio/neoterm'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'junegunn/vim-plug',{'dir': '~/.vim/plugged/vim-plug/autoload'}
+  call plug#end()
 
-" dein.vimが存在していない場合はgithubからclone
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-  endif
-  execute 'set runtimepath+=' . fnamemodify(s:dein_repo_dir, ':p')
-endif
+" ------------------- 以下プラグインのキー割り当て設定 ---------------------
 
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
+" fzf & fzf.vim
+nnoremap <leader>f :<C-u>Files<CR>
+nnoremap <leader>b :<C-u>Buffers<CR>
 
-  " dein.toml, dein_lazy.tomlファイルが格納されるディレクトリ
-  let s:toml_dir = expand('~/.config/nvim')
-
-  " 起動時に読み込むプラグイン群
-  call dein#load_toml(s:toml_dir . '/dein.toml', {'lazy': 0})
-
-  " 遅延読み込みするプラグイン群
-  " call dein#load_toml(s:toml_dir . '/dein_lazy.toml', {'lazy': 1})
-
-  call dein#end()
-  call dein#save_state()
-endif
-
-" Required:
-filetype plugin indent on
-syntax enable
-
-" If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
-
-"End dein Scripts-------------------------
+" neoterm
+let g:neoterm_default_mod='belowright'
+" ターミナルウィンドウサイズの変更
+let g:neoterm_size = winheight(0)/3
+augroup AutoTermHeight
+  autocmd!
+  autocmd VimResized * let g:neoterm_size = winheight(0)/3
+augroup END
+" ターミナルウィンドウのトグル設定
+nnoremap <silent> <C-t><C-t> :Ttoggle<CR>zz
+tnoremap <silent> <C-t><C-t> <C-\><C-n>:Ttoggle<CR>zz
+tnoremap <silent> <ESC> <C-\><C-n>
+nnoremap <silent> <leader>t :Topen<CR><C-w><C-j>i
+" 上のウィンドウに移動 <C-w>k
+" 下のウィンドウに移動 <C-w>j
+" 右のウィンドウに移動 <C-w>l
+" 左のウィンドウに移動 <C-w>h
+" ターミナルを抜ける <C-w><C-w>
