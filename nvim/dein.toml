@@ -1,0 +1,51 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'junegunn/fzf'
+build = './install --all'
+ 
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+hook_add = '''
+source ~/.config/nvim/plugins/fzf.rc.vim
+'''
+
+[[plugins]]
+repo = 'kassio/neoterm'
+hook_add = '''
+source ~/.config/nvim/plugins/neoterm.rc.vim
+'''
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+    let g:lightline = { 'colorscheme': 'wombat' }
+    set laststatus=2
+    set noshowmode
+'''
+
+[[plugins]]
+repo = 'lambdalisue/fern.vim'
+hook_add = '''
+source ~/.config/nvim/plugins/fren.rc.vim
+'''
+
+[[plugins]]
+repo = 'lambdalisue/fern-renderer-nerdfont.vim'
+hook_add = '''
+    let g:fern#renderer = 'nerdfont'
+'''
+
+[[plugins]]
+repo = 'lambdalisue/glyph-palette.vim'
+hook_add = '''
+  augroup my-glyph-palette
+    autocmd! *
+    autocmd FileType fern call glyph_palette#apply()
+    autocmd FileType nerdtree,startify call glyph_palette#apply()
+  augroup END
+'''
+
+[[plugins]]
+repo = 'jiangmiao/auto-pairs'
