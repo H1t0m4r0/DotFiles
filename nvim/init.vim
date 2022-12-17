@@ -25,7 +25,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'kassio/neoterm'
   Plug 'jiangmiao/auto-pairs'
   Plug 'junegunn/vim-plug',{'dir': '~/.vim/plugged/vim-plug/autoload'}
-  call plug#end()
+  Plug 'rust-lang/rust.vim'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+call plug#end()
 
 " ------------------- 以下プラグインのキー割り当て設定 ---------------------
 
@@ -51,3 +53,11 @@ nnoremap <silent> <leader>t :Topen<CR><C-w><C-j>i
 " 右のウィンドウに移動 <C-w>l
 " 左のウィンドウに移動 <C-w>h
 " ターミナルを抜ける <C-w><C-w>
+"
+" coc.nvim
+" autocomplete
+inoremap <silent><expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
+inoremap <silent><expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
+inoremap <silent><expr> <Enter> coc#pum#visible() ? coc#pum#confirm() : "\<Enter>"
+inoremap <silent><expr> <Esc> coc#pum#visible() ? coc#pum#cancel() : "\<Esc>"
+inoremap <silent><expr> <C-h> coc#pum#visible() ? coc#pum#cancel() : "\<C-h>"
