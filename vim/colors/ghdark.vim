@@ -1,0 +1,1 @@
+/home/espr3ss0/.vim/bundle/vim-github-dark/colors/ghdark.vim
